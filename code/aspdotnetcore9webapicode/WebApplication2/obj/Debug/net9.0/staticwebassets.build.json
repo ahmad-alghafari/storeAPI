@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "Hash": "qvDI3QcuKY8wqpsbuCnTrvBQ6oTxuoK5rxCV8/RkBoY=",
+  "Source": "WebApplication2",
+  "BasePath": "_content/WebApplication2",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "WebApplication2\\wwwroot",
+      "Source": "WebApplication2",
+      "ContentRoot": "C:\\Users\\eng-a\\source\\repos\\aspdotnetcore9webapicode\\WebApplication2\\wwwroot\\",
+      "BasePath": "_content/WebApplication2",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\eng-a\\source\\repos\\aspdotnetcore9webapicode\\WebApplication2\\wwwroot\\uploads\\2igco4sk.1ji3d07df55-870f-471e-8380-e8367c5bfd60.png",
+      "SourceId": "WebApplication2",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\eng-a\\source\\repos\\aspdotnetcore9webapicode\\WebApplication2\\wwwroot\\",
+      "BasePath": "_content/WebApplication2",
+      "RelativePath": "uploads/2igco4sk.1ji3d07df55-870f-471e-8380-e8367c5bfd60#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "6xjjpjnaoo",
+      "Integrity": "msBpMcU8suUwieW31PWguOA5LS+QaeXeQ1SI7kosKYc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\2igco4sk.1ji3d07df55-870f-471e-8380-e8367c5bfd60.png"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "uploads/2igco4sk.1ji3d07df55-870f-471e-8380-e8367c5bfd60.6xjjpjnaoo.png",
+      "AssetFile": "C:\\Users\\eng-a\\source\\repos\\aspdotnetcore9webapicode\\WebApplication2\\wwwroot\\uploads\\2igco4sk.1ji3d07df55-870f-471e-8380-e8367c5bfd60.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "538474"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"msBpMcU8suUwieW31PWguOA5LS+QaeXeQ1SI7kosKYc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Dec 2024 17:05:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6xjjpjnaoo"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/2igco4sk.1ji3d07df55-870f-471e-8380-e8367c5bfd60.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-msBpMcU8suUwieW31PWguOA5LS+QaeXeQ1SI7kosKYc="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/2igco4sk.1ji3d07df55-870f-471e-8380-e8367c5bfd60.png",
+      "AssetFile": "C:\\Users\\eng-a\\source\\repos\\aspdotnetcore9webapicode\\WebApplication2\\wwwroot\\uploads\\2igco4sk.1ji3d07df55-870f-471e-8380-e8367c5bfd60.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "538474"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"msBpMcU8suUwieW31PWguOA5LS+QaeXeQ1SI7kosKYc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Dec 2024 17:05:20 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-msBpMcU8suUwieW31PWguOA5LS+QaeXeQ1SI7kosKYc="
+        }
+      ]
+    }
+  ]
+}

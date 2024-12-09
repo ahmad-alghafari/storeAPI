@@ -1,0 +1,295 @@
+
+  <div class="card mb-3">
+    <div class="card-header bg-light pb-0">
+      <div class="row flex-between-end my-2">
+        <div class="col-auto align-self-center">
+          <h5 class="mb-0" id="products">Products</h5>
+        </div>
+      </div>
+      
+    </div>
+    <div class="card-header pb-0">
+
+      <div class="row flex-between-end">
+        <div class="col-auto mb-3">
+          <ul class="navbar-nav align-items-center d-none d-lg-block">
+            <li class="nav-item">
+              <div class="search-box">
+                  <input #searchs (keyup)="search(searchs.value)" class="form-control search-input fuzzy-search" type="search" placeholder="Search..." aria-label="Search" />
+                  <span class="fas fa-search search-box-icon"></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-auto mb-3">
+          <div id="table-simple-pagination-replace-element">
+            <a [routerLink]="['/'+service.routeNames.createProduct]" class="btn btn-falcon-default btn-sm m-2" type="button"><span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Create</span></a>
+            <button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Export</span></button>
+            <button (click)="sortByUpdatedAtAsc()" class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-clock" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Old</span></button>
+            <button (click)="sortByUpdatedAtDesc()"  class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-clock" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">New</span></button>
+            <button (click)="sortByPriceAsc()"  class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-money-bill-alt" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Sheapest</span></button>
+            <button (click)="sortByPriceDesc()"  class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-money-check-alt" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Most Expensive</span></button>
+            <button  (click)="defult()" class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Defult Filter</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body px-0 pt-0">
+      <div class="tab-content">
+        <div class="tab-pane preview-tab-pane active">
+          <table class="table mb-0  fs--1">
+            <thead class="bg-200 text-900">
+              <tr>
+                <th class="text-center">Name</th>
+                <th class="text-center">Brand</th>
+                <th class="text-center">Category</th>
+                <th class="text-center">Last Update</th>
+                <th class="text-center">New</th>
+                <th class="text-center">Availablity</th>
+                <th class="text-center">Show</th>
+                <th class="text-center">Price</th>
+                <th class="fw-medium  pe-1 align-middle "></th>
+              </tr>
+            </thead>
+            <tbody>
+            @for(product of filterProducts ; track product.id){
+             <tr>
+                <td>
+                  <div class="row">
+                    <div class="col-4">
+                      <img class="rounded-1 border border-200" [src]="product.images[0] != null ? service.URLs.baseUrl+product.images[0]!.path : 'assets/img/elearning/courses/course3.png'" width="60" />
+                    </div>
+                    <div class="col-8">
+                      <a class="nav-link " [routerLink]="['/'+service.routeNames.showProduct.replace(':id' , product.id)]">
+                        {{product.name}}
+                      </a>
+                    </div>
+                  </div>
+                </td>
+                <td class="align-middle text-center">
+                  {{product?.brand?.name ?? 'No Brand'}}
+                </td>
+                <td class="align-middle text-center">
+                  {{product?.category?.name ?? 'No Category'}}
+                </td>
+                <td class="align-middle text-center">
+                  {{product?.updatedAt ? service.timeAgo(product.updatedAt) : 'No Update'}}
+                </td>
+                <td class="align-middle text-center">
+                  <button (click)="updateProductStatus(product.id , 'new' , product.new , product)" class="btn btn-falcon-default btn-sm rounded-pill me-1 mb-1" type="button" [style.color]="product?.new == 'true'? 'green' : 'black'" data-bs-toggle="tooltip" data-bs-placement="top" title="Click To Change">
+                    {{product?.new == 'true' ? 'New' : 'Old' }}
+                  </button>
+                </td>
+                <td class="align-middle text-center">
+                  <button (click)="updateProductStatus(product.id , 'available' , product.availability , product)" class="btn btn-falcon-default btn-sm rounded-pill me-1 mb-1" type="button" [style.color]="product?.availability == 'true'? 'green' : 'red'">
+                    {{product?.availability == 'true' ? 'Available' : 'Sold Out'}}
+                  </button>
+                </td>
+                <td class="align-middle">
+                  <button (click)="updateProductStatus(product.id , 'show' , product.show , product)" class="btn btn-falcon-default btn-sm rounded-pill me-1 mb-1" type="button">
+                    {{product?.show == 'true' ? 'Show':'Hidden'}}
+                  </button>
+                </td>
+                <td class="align-middle text-success">
+                  {{product?.price | currency}}
+                </td>
+                <td class="align-middle text-end">
+                  <div class="dropdown font-sans-serif position-static d-inline-block btn-reveal-trigger">
+                    <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal dropdown-caret-none float-end" type="button" id="dropdown0" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                    <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown0">
+                      <a class="dropdown-item"   [routerLink]="['/'+service.routeNames.showProduct.replace(':id',product.id)]" >View</a>
+                      <button 
+                      class="dropdown-item" 
+                      type="button" 
+                      data-bs-toggle="modal"
+                      data-bs-target="#editProduct-modal" 
+                      (click)="deleteProductId = product.id">
+                      Edit</button>
+                      <a class="dropdown-item"  [routerLink]="['/' + service.routeNames.productProperties.replace(':id' , product.id)]" >Properties</a>
+                      <div class="dropdown-divider"></div>
+                      <a 
+                      class="dropdown-item text-danger" 
+                      type="button" 
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteProduct-modal" 
+                      (click)="deleteProductId = product.id"
+                      >Delete</a>
+                    </div>
+                  </div>
+                </td>
+             </tr>
+            }@empty {
+              <tr>
+                <td colspan="8"><h5>404 : No Products Found ... <a routerLink="/create/product"   class="d-inline ">Add a new product.</a></h5></td>
+              </tr>
+            }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editProduct-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+      <div class="modal-content position-relative">
+        
+          <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+            <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close" ></button>
+          </div>
+        
+          <div class="modal-body p-0">
+          <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+            <h4 class="mb-1" id="modalExampleDemoLabel">Update "{{service.productFormDataUpdate.name}}" </h4>
+          </div>
+            <div class="p-4 pb-0">
+              <form #formUpdate="ngForm" (submit)="update(formUpdate)">
+               
+                <div class="mb-3">
+                  <label class="col-form-label" for="namePut">Name:</label>
+                    <input 
+                    class="form-control" 
+                    id="namePut" 
+                    type="text"
+                    name="newname"
+                    #name="ngModel"
+                    [(ngModel)]="service.productFormDataUpdate.name"
+                    />
+                </div>
+                <div class="mb-3">
+                  <label class="col-form-label" for="descriptionPut">Description:</label>
+                  <textarea 
+                  class="form-control" 
+                  id="descriptionPut"
+                  name="newdescription"
+                  #description="ngModel"
+                  [(ngModel)]="service.productFormDataUpdate.description"
+                  ></textarea>
+                </div>
+
+                <div class="row gx-2">
+                  <div class="col-sm-6 mb-3">
+                      <label for="category">Category</label>
+                      <select 
+                      class="form-select " 
+                      id="category" 
+                      data-options='{"placeholder":"Select Category..."}' 
+                      name="category"
+                      [(ngModel)]="service.productFormDataUpdate.categoryId"
+                      #category="ngModel"
+                      required>
+                          <option>Select category...</option>
+                          @for(category of service.categories ; track category.id){
+                              <option [value]="category.id">{{category.name}}</option>
+                          }
+                      </select>
+                  </div>
+                  <div class="col-sm-6 mb-3">
+                      <label for="brand">Brand</label>
+                      <select 
+                      class="form-select " 
+                      id="brandupdate" 
+                      data-options='{"placeholder":"Select Brand..."}' 
+                      name="brand"
+                      [(ngModel)]="service.productFormDataUpdate.brandId"
+                      #brand="ngModel"
+                      required >
+                          <option>Select brand...</option>
+                          @for(brand of service.brands ; track brand.id){
+                              <option [value]="brand.id">{{brand.name}}</option>
+                          }
+                      </select>
+                  </div>
+                  <div class="col-sm-6 mb-3">
+                      <label for="price" >Price</label>
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="price"
+                      placeholder="$2800"
+                      min="1"
+                      name="price"
+                      [(ngModel)]="service.productFormDataUpdate.price"
+                      #price="ngModel"
+                      required
+                      >
+                  </div>
+                  <div class="col-sm-6 mb-3">
+                      <label for="available">Available ? </label>
+                      <select 
+                      class="form-select" 
+                      id="available" 
+                      name="available"
+                      [(ngModel)]="service.productFormDataUpdate.availability"
+                      #available="ngModel"
+                      required>
+                          <option value="true" >Yes</option>
+                          <option value="false">No</option>
+                      </select>
+                  </div>
+                  <div class="col-sm-6 mb-3">
+                      <label for="show">Show ? </label>
+                      <select 
+                      class="form-select" 
+                      id="show" 
+                      name="show"
+                      [(ngModel)]="service.productFormDataUpdate.show"
+                      #show="ngModel"
+                      required>
+                          <option value="true" >Yes</option>
+                          <option value="false">No</option>
+                      </select>
+                  </div>
+                  <div class="col-sm-6 mb-3">
+                      <label for="new">New ? </label>
+                      <select 
+                      class="form-select" 
+                      id="new"
+                      name="new"
+                      [(ngModel)]="service.productFormDataUpdate.new"
+                      #new="ngModel"
+                      required>
+                          <option value="true" >Yes</option>
+                          <option value="false">No</option>
+                      </select>
+                  </div>
+              </div>
+
+                <div class="mb-3">
+                  <button class="btn btn-primary" type="submit"  data-bs-dismiss="modal">Update</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteProduct-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+      <div class="modal-content position-relative">
+        
+          <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+            <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        
+          <div class="modal-body p-0">
+            <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+              <h4 class="mb-1" id="message">Confirmation message</h4>
+            </div>
+            <p class="p-4 pb-0 text-danger">
+              Ary You sure to delete the product !?
+            </p>
+          </div>
+          
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" >Close</button>
+            <button class="btn btn-danger" type="button" data-bs-dismiss="modal" (click)="destroy()">Delete</button>
+          </div>
+      </div>
+    </div>
+  </div>

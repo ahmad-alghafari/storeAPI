@@ -1,0 +1,145 @@
+<div class="card mb-3">
+  <div class="card-header position-relative">
+    <h5 class="mb-0 mt-1">Products</h5>
+    <div class="bg-holder d-none d-md-block bg-card" style="background-image:url(assets/img/illustrations/corner-6.png);">
+    </div>
+
+  </div>
+  <div class="card-body pt-0 pt-md-3">
+    <div class="row g-3 align-items-center">
+      <div class="col-auto d-xl-none">
+        <button class="btn btn-sm p-0 btn-link position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas"><span class="fas fa-filter fs-0 text-700"></span></button>
+      </div>
+      <div class="col">
+        <form class="position-relative">
+          <input #searchkey (keyup)="search(searchkey.value)" class="form-control form-control-sm search-input lh-1 rounded-2 ps-4" type="search" placeholder="Search..." aria-label="Search" />
+          <div class="position-absolute top-50 start-0 translate-middle-y ms-2"><span class="fas fa-search text-400 fs--1"></span></div>
+        </form>
+      </div>
+      <div class="col position-sm-relative position-absolute top-0 end-0 me-3 me-sm-0 p-0">
+        <div class="row g-0 g-md-3 justify-content-end">
+          <div class="col-auto">
+            <form class="row gx-2">
+              <div class="col-auto d-none d-lg-block"><small class="fw-semi-bold">Sort by:</small></div>
+              <div class="col-auto">
+                <select class="form-select form-select-sm" aria-label="Bulk actions">
+                  <option value="rating">Rating</option>
+                  <option value="review">Review</option>
+                  <option value="price">Price</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="col-auto">
+            <div class="d-flex align-items-center"><small class="fw-semi-bold d-none d-lg-block lh-1">View:</small>
+              <div class="d-flex">
+                <button class="btn btn-link btn-sm text-400 hover-700" (click)="switchGrid()" data-bs-toggle="tooltip" data-bs-placement="top" title="Course Grid">
+                  <span class="fas fa-th fs-1" data-fa-transform="down-1"></span>
+                </button>
+                <button class="btn btn-link btn-sm px-1 text-700" (click)="switchList()" data-bs-toggle="tooltip" data-bs-placement="top" title="Course List">
+                    <span class="fas fa-list-ul fs-1" data-fa-transform="down-1"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+    @if(gridOrList == 'grid'){
+        <div class="card-body">
+            <div class="row">
+                @for (prod of filterProducts; track prod.id) {
+                  <div class="mb-4 col-md-6 col-lg-4">
+                    <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
+                        <div class="overflow-hidden">
+                        <div class="position-relative rounded-top overflow-hidden">
+                          <a class="d-block" [routerLink]="['/'+service.routeNames.showProduct.replace(':id',prod.id)]">
+                            <img class="img-fluid rounded-top" src="../../../assets/img/products/2.jpg" alt="" />
+                          </a>
+                          @if(prod.new == 'true'){
+                            <span  class="badge rounded-pill bg-success position-absolute mt-2 me-2 z-index-2 top-0 end-0">New</span>
+                          }
+                        </div>
+                        <div class="p-3">
+                            <h5 class="fs-0"><a class="text-dark" [routerLink]="['/'+service.routeNames.showProduct.replace(':id',prod.id)]" routerLinkActive="router-link-active" >{{prod.name}}</a></h5>
+                            <p class="fs--1 mb-3"><a class="text-500" href="#!">{{prod.category.name}}</a></p>
+                            <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3"> 
+                              {{prod.price | currency}}
+                            </h5>
+                            <p class="fs--1 mb-1">Stock: <strong [class]="prod.availability == 'true' ? 'text-success':'text-danger'">{{prod.availability == 'true' ? 'Available':'Sold Out'}}</strong>
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                }@empty {
+                  empty
+                }
+            </div>
+        </div>
+    }@else {
+        <div class="card-body p-0 overflow-hidden">
+            <div class="row g-0">
+              @for (prod of filterProducts; track $index) {
+                <div class="col-6 p-x1" [ngClass]="{'bg-100' : $odd == true}">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="d-flex flex-between-center">
+                        <div>
+                            <h5 class="">
+                              <a class="text-dark fs-0 fs-lg-1" [routerLink]="['/'+service.routeNames.showProduct.replace(':id' , prod.id)]">{{prod.name}}</a>
+                            </h5>
+                        </div>
+                        <div>
+                          <h4 class="fs-1 fs-md-2 text-warning mb-0">{{prod.price | currency}}</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-8">
+                      <br>
+                      <div class="position-relative h-sm-100">
+                        <a class="d-block h-100" [routerLink]="['/'+service.routeNames.showProduct.replace(':id' , prod.id)]">
+                          <img class="img-fluid fit-cover w-sm-100 h-sm-100 rounded-1 absolute-sm-centered" src="../../../assets/img/products/2.jpg" alt="" /></a>
+                          @if(prod.new == 'true'){
+                            <div class="badge rounded-pill bg-success position-absolute top-0 end-0 me-2 mt-2 fs--2 z-index-2">New</div>
+                          }
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <br>
+                          <p class="fs--1 mb-2 mb-md-3"><a class="text-500" href="#!">{{prod.category.name}}</a></p>
+                          @for (color of prod.colors; track color.id) {
+                            <span class="fas fa-circle fs--1 me-1" [style.color]="color.value" ></span>
+                          }@empty {
+                            
+                          }
+                          <ul class="list-unstyled d-none d-lg-block">
+                            @for(spec of prod.details ; track spec.id){
+                              <li><span class="fas fa-circle" data-fa-transform="shrink-12"></span><span>{{spec.value}}</span></li>
+                            }
+                          </ul>
+                          <div class="d-none d-lg-block">
+                            <p class="fs--1 mb-1">Stock: <strong [class]="prod.availability == 'true' ? 'text-success':'text-danger'">{{prod.availability == 'true' ? 'Available':'Sold Out'}}</strong>
+                            </p>
+                          </div>
+                        
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+        </div>
+    }
+    <div class="card-footer bg-light d-flex justify-content-center">
+      <div>
+        <button class="btn btn-falcon-default btn-sm me-2" type="button" disabled="disabled" data-bs-toggle="tooltip" data-bs-placement="top" title="Prev"><span class="fas fa-chevron-left"></span></button><a class="btn btn-sm btn-falcon-default text-primary me-2" href="#!">1</a><a class="btn btn-sm btn-falcon-default me-2" href="#!">2</a><a class="btn btn-sm btn-falcon-default me-2" href="#!"> <span class="fas fa-ellipsis-h"></span></a><a class="btn btn-sm btn-falcon-default me-2" href="#!">35</a>
+        <button class="btn btn-falcon-default btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Next"><span class="fas fa-chevron-right">     </span></button>
+      </div>
+    </div>
+</div>
+
+

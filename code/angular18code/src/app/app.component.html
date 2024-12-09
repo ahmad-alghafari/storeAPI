@@ -1,0 +1,97 @@
+<main class="main" id="top">
+  <div class="container" data-layout="container">
+    <nav class="navbar navbar-light navbar-vertical navbar-expand-xl">
+      <div class="d-flex align-items-center">
+        <div class="toggle-icon-wrapper">
+          <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+        </div>
+        <a class="navbar-brand" href="index.html">
+          <div class="d-flex align-items-center py-3">
+            <span class="font-sans-serif">StoreAPI</span>
+          </div>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+        <div class="navbar-vertical-content scrollbar">
+          <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
+            <li class="nav-item">
+              <a class="nav-link dropdown-indicator" href="#baseinformation" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="dashboard">
+                <div class="d-flex align-items-center">
+                  <span class="nav-link-icon"><span class="fas fa-database"></span></span><span class="nav-link-text ps-1">Base Information</span>
+                </div>
+              </a>
+              <ul class="nav collapse show" id="baseinformation">
+                <li class="nav-item">
+                  <a [routerLink]="[routeNames.categories]" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link ">
+                    <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Categories</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a [routerLink]="[routeNames.brands]" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link ">
+                    <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Brands</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a [routerLink]="[routeNames.tags]" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link ">
+                    <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Tags</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a [routerLink]="[routeNames.colors]" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link ">
+                    <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Colors</span>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link dropdown-indicator" href="#Products" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="dashboard">
+                <div class="d-flex align-items-center">
+                  <span class="nav-link-icon"><span class="fab fa-product-hunt"></span></span><span class="nav-link-text ps-1">Products</span>
+                </div>
+              </a>
+              <ul class="nav collapse show" id="Products">
+                <li class="nav-item">
+                  <a [routerLink]="[routeNames.products]" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link ">
+                    <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Products</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a [routerLink]="[routeNames.createProduct]" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link ">
+                    <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Add Product</span>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link dropdown-indicator" href="#Products" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="dashboard">
+                <div class="d-flex align-items-center">
+                  <span class="nav-link-icon"><span class="fab fa-product-hunt"></span></span><span class="nav-link-text ps-1">Clint Pages</span>
+                </div>
+              </a>
+              <ul class="nav collapse show" id="Products">
+                <li class="nav-item">
+                  <a [routerLink]="[routeNames.showProducts]" routerLinkActive="active" ariaCurrentWhenActive="page" class="nav-link ">
+                    <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Products</span>
+                    </div>
+                  </a>
+                </li>
+               
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="content">
+      <app-navbar />
+      <router-outlet></router-outlet>
+      <app-footer></app-footer>
+    </div>
+  </div>
+</main>

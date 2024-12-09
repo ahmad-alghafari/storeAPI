@@ -1,0 +1,67 @@
+<div class="card mb-3 mb-lg-0">
+    <div class="card-header bg-light d-flex flex-between-center">
+        <h5 class="mb-0">Colors</h5>
+        <ul class="navbar-nav align-items-center  d-lg-block">
+            <li class="nav-item">
+              <div class="search-box">
+                  <input #searchs (keyup)="search(searchs.value)" class="form-control search-input fuzzy-search" type="search" placeholder="Search..." aria-label="Search" />
+                  <span class="fas fa-search search-box-icon"></span>
+              </div>
+            </li>
+          </ul>
+    </div>
+    <div class="card-body">
+            @for(color of filterColors ; track color.id){
+                <div class="d-flex flex-between-center hover-actions-trigger rounded-3 bg-light p-3 mb-2">
+                    <a href="#!">
+                      <h6 class="mb-0">
+                        <span class="fas fa-circle fs--1 me-3 " [style.color]="color.value"></span>{{color.name}}
+                      </h6>
+                    </a>
+                    <a class="fs--2 text-600 mb-0" href="#!">{{color.value}}</a>
+                    <div class="hover-actions end-0  top-50 translate-middle-y me-2 ">
+                        <button (click)="destroy(color.id)" class="btn btn-light icon-item rounded-3 fs--2 icon-item-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove"><span class="fas fa-times"></span></button>
+                    </div>
+                </div>
+            }@empty {
+                <div class="d-flex py-3 hover-actions-trigger align-items-center border-bottom border-300"><span class="fas fa-grip-lines fs--2 text-secondary me-3"></span>
+                    <p class="mb-0 fs--1 me-6">No Colors</p>
+                </div>
+            }
+    </div>
+    <div class="card-header bg-light">
+        <h5 class="mb-0">Add Color</h5>
+    </div>
+    <div class="card-body">
+        <form #form="ngForm" (submit)="create(form)">
+                <div class="mb3">
+                    <label class="form-label" for="namecollor">Color Name</label>
+                    <input 
+                    class="form-control" 
+                    id="namecollor" 
+                    type="text" 
+                    name="name"
+                    #name="ngModel"
+                    [(ngModel)]="service.savedColorFormData.name"
+                    required
+                    />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="colorvalue">Color</label>
+                    <input 
+                    class="form-control" 
+                    type="color" 
+                    name="color" 
+                    id="colorvalue"
+                    #value="ngModel"
+                    [(ngModel)]="service.savedColorFormData.value"
+                    required
+                    >
+                </div>
+                <div class="mb-3 col-3">
+                    <button type="submit" class="form-control">
+                        Save
+                    </button>
+                </div>
+        </form>
+</div>

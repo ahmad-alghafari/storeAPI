@@ -1,0 +1,155 @@
+<div class="card mb-3">
+  <div class="card-header">
+    <div class="row flex-between-end">
+        <h5 class="mb-0" >Add New</h5>
+    </div>
+  </div>
+  <div class="card-body bg-light">
+    <div class="tab-content">
+      <div class="tab-pane preview-tab-pane active" role="tabpanel"  >
+        <form #form="ngForm" (submit)="create(form)">
+          <div class="mb-3">
+            <label class="form-label" for="namePost">Name Of Category</label>
+            <input 
+            type="text"  
+            class="form-control" 
+            id="namePost"  
+            name="name"
+            placeholder="Computer & Acisories"
+            [(ngModel)]="service.categoryFormData.name"
+            #name="ngModel"
+            required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="descriptionPost">Description</label>
+            <textarea 
+            class="form-control" 
+            id="descriptionPost" 
+            rows="3"
+            #description="ngModel"
+            [(ngModel)]="service.categoryFormData.description"
+            name="description"
+            ></textarea>
+          </div>
+          <div class="mb-3 col-4">
+            <button type="submit" class="form-control btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card mb-3" id="enrolledCoursesTable">
+    <div class="card-header d-flex flex-between-center">
+      <h5 class="mb-0" id="categories">Categories</h5>
+      <ul class="navbar-nav align-items-center  d-lg-block">
+        <li class="nav-item">
+          <div class="search-box">
+              <input #searchs (keyup)="search(searchs.value)" class="form-control search-input fuzzy-search" type="search" placeholder="Search..." aria-label="Search" />
+              <span class="fas fa-search search-box-icon"></span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive scrollbar">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Category Name</th>
+                  <th scope="col">Description</th>
+                  <th class="text-end" scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+               @for(cat of filterCategories  ; track cat.id){
+                <tr>
+                    <td>{{cat.name}}</td>
+                    <td>{{cat.description}}</td>
+                    <td class="text-end">
+                      <div>
+                        <button 
+                          class="btn btn-link p-0" 
+                          type="button" 
+                          data-bs-toggle="modal"
+                          data-bs-target="#editCategory-modal" 
+                          (click)="service.setCategoryFormDataUpdate(cat)"
+                          >
+                          <span class="text-500 fas fa-edit"></span>
+                        </button>
+                        <button 
+                          (click)="destroy(cat.id)" 
+                          class="btn btn-link p-0 ms-2" 
+                          type="button" 
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="top" 
+                          title="Delete">
+                          <span class="text-500 fas fa-trash-alt"></span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+               }@empty {
+                <tr>
+                    <td colspan="3">
+                        <h4>No Category Found</h4>
+                    </td>
+                </tr>
+               }
+              </tbody>
+            </table>
+          </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="editCategory-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+    <div class="modal-content position-relative">
+      
+      <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+        <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body p-0">
+        <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+          <h4 class="mb-1" id="modalExampleDemoLabel">Update "{{service.categoryFormDataUpdate.name}}" </h4>
+        </div>
+          <div class="p-4 pb-0">
+            <form #formUpdate="ngForm" (submit)="update(form)">
+             
+              <div class="mb-3">
+                <label class="col-form-label" for="namePut">Name:</label>
+                  <input 
+                  class="form-control" 
+                  id="namePut" 
+                  type="text"
+                  name="newname"
+                  #name="ngModel"
+                  [(ngModel)]="service.categoryFormDataUpdate.name"
+                  />
+              </div>
+              <div class="mb-3">
+                <label class="col-form-label" for="descriptionPut">Description:</label>
+                <textarea 
+                class="form-control" 
+                id="descriptionPut"
+                name="newdescription"
+                #description="ngModel"
+                [(ngModel)]="service.categoryFormDataUpdate.description"
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <button class="btn btn-primary" type="submit"  data-bs-dismiss="modal">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" >Close</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,285 @@
+<div class="row g-3 mb-3">
+  <div class="col-lg-12">
+    <div class="card mb-3 mb-lg-0">
+      <div class="card-header bg-light d-flex flex-between-center">
+        <h5 class="mb-0">Specifications</h5>
+      </div>
+      <div class="card-body">
+        <table class="table fs--1 mt-3">
+          <tbody>
+            @for(det of product.details ; track det.id){
+              <tr>
+                <td class="bg-100" style="width: 30%;">{{det.name}}</td>
+                <td>
+                  <div class="d-flex flex-between-center hover-actions-trigger rounded-3">
+                    {{det.value}}
+                    <div class="hover-actions end-0  top-50 translate-middle-y me-2 ">
+                        <button (click)="destroySpecifications(det.id)" class="btn btn-light icon-item rounded-3 fs--2 icon-item-sm me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove"><span class="fas fa-times"></span></button>
+                        <button (click)="service.setSpecificationFormDataUpdate(det)" type="button" data-bs-toggle="modal" data-bs-target="#editSpec-modal"   class="btn btn-light icon-item rounded-3 fs--2 icon-item-sm me-2" ><span class="fas fa-pen"></span></button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            }@empty {
+              <td class="bg-100" style="width: 30%;">No Specifications Found</td>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="card-header bg-light d-flex flex-between-center">
+        <h5 class="mb-0">Add Specifications</h5>
+      </div>
+      <div class="card-body">
+       <form #SpecificationsForm="ngForm" (submit)="createSpecification(SpecificationsForm)">
+        <div class="mb-3">
+          <div class="form-label">
+            Name
+          </div>
+          <input required #name="ngModel" [(ngModel)]="service.specificationFormData.name" class="form-control" placeholder="Memory , Battery ... " name="specificationsName" id="specificationsName">
+        </div>
+        <div class="mb-3">
+          <div class="form-label">
+            Value
+          </div>
+          <input required #value [(ngModel)]="service.specificationFormData.value" class="form-control" placeholder="description , number , type ..." name="specificationsValue" id="specificationsValue">
+        </div>
+        <div class="mb-3 col-4">
+          <button class="form-control btn btn-falcon-primary" type="submit">Submit</button>
+        </div>
+       </form>
+      </div>
+    </div>
+  </div>
+    
+    <div class="col-lg-6">
+        <div class="card mb-3 mb-lg-0">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Colors</h5>
+            </div>
+            <div class="card-body">
+            <!-- <ul class="list-unstyled "> -->
+                @if(product ){
+                    @for(color of product.colors ; track color.id){
+                        
+                        <div class="d-flex flex-between-center hover-actions-trigger rounded-3 bg-light p-3 mb-2">
+                            <a href="#!">
+                              <h6 class="mb-0">
+                                <span class="fas fa-circle fs--1 me-3 " [style.color]="color.value"></span>{{color.name}}
+                              </h6>
+                            </a>
+                            <a class="fs--2 text-600 mb-0" href="#!">{{color.value}}</a>
+                            <div class="hover-actions end-0  top-50 translate-middle-y me-2 ">
+                                <button (click)="destroyColor(color.id)" class="btn btn-light icon-item rounded-3 fs--2 icon-item-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove"><span class="fas fa-times"></span></button>
+                            </div>
+                        </div>
+                    }@empty {
+                        <div class="d-flex py-3 hover-actions-trigger align-items-center border-bottom border-300"><span class="fas fa-grip-lines fs--2 text-secondary me-3"></span>
+                            <p class="mb-0 fs--1 me-6">No Colors</p>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Add Color</h5>
+            </div>
+            <div class="card-body">
+                <form #form="ngForm" (submit)="createColor(form)">
+                        <div class="mb3">
+                            <label class="form-label" for="namecollor">Color Name</label>
+                            <input 
+                            class="form-control" 
+                            id="namecollor" 
+                            type="text" 
+                            name="name"
+                            #name="ngModel"
+                            [(ngModel)]="service.colorFormData.name"
+                            required
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="colorvalue">Color</label>
+                            <input 
+                            class="form-control" 
+                            type="color" 
+                            name="color" 
+                            id="colorvalue"
+                            #value="ngModel"
+                            [(ngModel)]="service.colorFormData.value"
+                            required
+                            >
+                        </div>
+                        <div class="mb-3 col-3">
+                            <button type="submit" class="form-control btn btn-falcon-primary">
+                                Save
+                            </button>
+                        </div>
+                </form>
+                <form #forms="ngForm" (submit)="createColorTwo(forms)">
+                    <div class="d-flex flex-between-center mb-2">
+                      <label class="mb-0 lh-1" for="course-features">Suggested</label>
+                      <button class="btn btn-link btn-sm fw-medium p-0" type="submit">Add New</button>
+                  </div>
+                  <select 
+                  class="form-select js-choice" 
+                  id="course-features"  
+                  size="1" 
+                  name="features" 
+                  data-options='{"removeItemButton":true,"placeholder":true}'
+                  #id="ngModel"
+                  [(ngModel)]="colorid"
+                  required
+                  >
+                      <option value="">Select One...</option>
+                      @for (color of service.savedColors; track color.id) {
+                        <option [value]="color.id">{{color.name}}</option>
+
+                      }@empty {
+                        <option value="">No Colors</option>
+                      }
+                  </select>
+                </form>
+              </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card mb-3 mb-lg-0">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">Tags</h5>
+            </div>
+            <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                @if(product && product.tags){
+                    @for(tag of product.tags ; track tag.id){
+                        <li>
+                            <div class="d-flex py-3 hover-actions-trigger align-items-center border-bottom border-300"><span class="fas fa-grip-lines fs--2 text-secondary me-3"></span>
+                                <p class="mb-0 fs--1 me-6">{{tag?.tag?.name}}</p>
+                                <div class="hover-actions end-0 top-50 translate-middle-y">
+                                <button (click)="destroyProductTag(tag.id)" class="btn btn-light icon-item rounded-3 fs--2 icon-item-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove"><span class="fas fa-times"></span></button>
+                                </div>
+                            </div>
+                        </li>       
+                    }@empty {
+                        <div class="d-flex py-3 hover-actions-trigger align-items-center border-bottom border-300"><span class="fas fa-grip-lines fs--2 text-secondary me-3"></span>
+                            <p class="mb-0 fs--1 me-6">No Tags</p>
+                        </div>
+                    }
+                }
+            </ul>
+            </div>
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Add Tag</h5>
+            </div>
+            <div class="card-body">
+                <form #tagform="ngForm" (submit)="createProductTag(tagform)">
+                    <div class="d-flex flex-between-center mb-2">
+                        <label class="mb-0 lh-1" for="course-features">Select One</label>
+                        <button class="btn btn-link btn-sm fw-medium p-0" type="submit">Save</button>
+                    </div>
+                    <select 
+                    class="form-select js-choice" 
+                    id="tag" 
+                    size="1"
+                    name="tag" 
+                    data-options='{"placeholder":true ,"removeItemButton":true}'
+                    #tagid="ngModel"
+                    [(ngModel)]="tagid"
+                    required
+                    >
+                        <option value="">Select tag...</option>
+                        @for(tag of service.tags ; track tag.id){
+                        <option [value]="tag.id">{{tag.name}}</option>
+                        }
+                    </select>
+                </form>
+                </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+      <div class="card mb-3 mb-lg-0">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Shared Files</h5>
+        </div>
+        <div class="card-body">
+          @for(img of product.images ; track img.id){
+            <div class="d-flex mb-3 hover-actions-trigger align-items-center">
+              <div class="file-thumbnail">
+                <img class="border h-100 w-100 fit-cover rounded-2" [src]="[ service.URLs.baseUrl + img.path]" />
+              </div>
+              <div class="ms-3 flex-shrink-1 flex-grow-1">
+                <h6 class="mb-1"><a class="stretched-link text-900 fw-semi-bold" [href]="[service.URLs.baseUrl + img.path]">{{$index + 1}}</a></h6>
+                <div class="fs--1">
+                  <span class="fw-medium text-600 ms-2">{{service.timeAgo(img.createdAt)}}</span>
+                </div>
+                <div class="hover-actions end-0 top-50 translate-middle-y">
+                  <a class="btn btn-light border-300 btn-sm me-1 text-600" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" [href]="[ service.URLs.baseUrl + img.path]"  download="download">
+                    <img src="assets/img/icons/cloud-download.svg" alt="" width="15" />
+                  </a>
+                  <button (click)="destroyImage(img.id)" class="btn btn-light border-300 btn-sm me-1 text-600 shadow-none" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="delete">
+                    <span class="fas fa-trash"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <hr class="text-200" />
+          }@empty {
+            
+          }
+        </div>
+        <div class="card-body bg-light  d-flex flex-between-center">
+          <input type="file" name="image" (change)="setfiles($event)" class="form-control">
+          <button class="btn btn-falcon-primary" type="button" (click)="createImage()">Upload</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editSpec-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+    <div class="modal-content position-relative">
+      
+        <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+          <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close" ></button>
+        </div>
+      
+        <div class="modal-body p-0">
+        <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+          <h4 class="mb-1" id="modalExampleDemoLabel">Update "{{service.specificationFormDataUpdate.name}}"</h4>
+        </div>
+          <div class="p-4 pb-0">
+            <form #formUpdate="ngForm" (submit)="updateSpecification(formUpdate)">
+             
+              <div class="mb-3">
+                <label class="col-form-label" for="namePut">Name:</label>
+                  <input 
+                  class="form-control" 
+                  id="name" 
+                  type="text"
+                  name="name"
+                  #name="ngModel"
+                  [(ngModel)]="service.specificationFormDataUpdate.name"
+                  />
+              </div>
+              <div class="mb-3">
+                <label class="col-form-label" for="descriptionPut">Description:</label>
+                <textarea 
+                class="form-control" 
+                id="value"
+                name="value"
+                #value="ngModel"
+                [(ngModel)]="service.specificationFormDataUpdate.value"
+                required
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <button class="btn btn-falcon-primary" type="submit" data-bs-dismiss="modal">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" >Close</button>
+        </div>
+    </div>
+  </div>
+</div>
