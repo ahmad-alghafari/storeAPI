@@ -46,8 +46,6 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 Store.com is an e-commerce platform designed for showcasing electronic products to visitors. It focuses on providing detailed product information without the ability to make purchases. Administrators benefit from a flexible dashboard to manage base data and monitor system statistics effectively.
 
 
@@ -58,4 +56,17 @@ Store.com is an e-commerce platform designed for showcasing electronic products 
 ### Visitor Features
 * Explore electronic products with details such as: Colors, categories, brands, prices, and warranties.
 * Non-purchasable interface designed for browsing.
+
+### Admin Features
+- Comprehensive dashboard with the following capabilities:
+    - Base Data Management: CRUD operations for brands, categories, colors, and tags, each with descriptiveguides.
+    - Product Management:
+        - Edit product properties like images, descriptions, warranty, tags, and colors.
+        - Control product statuses:
+            - Availability: Available or Sold Out
+            - Visibility: Show or Hide
+            - Type: New or Old
+    - Monitoring Dashboard: Visualize product counts, updates, and system-wide metrics.
+
+
 
