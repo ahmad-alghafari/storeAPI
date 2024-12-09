@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo" width="400" height="200">
     <h3 align="center">StoreAPI.com</h3>
 </div>
 
