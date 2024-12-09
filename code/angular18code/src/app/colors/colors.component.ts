@@ -47,7 +47,7 @@ export class ColorsComponent  {
   destroy(id:any){
     this.service.delete(this.service.URLs.savedcolorsApiUrl ,id).subscribe({
       next : response => {
-        this.service.savedColors =  this.service.savedColors.filter(color =>  color.id !== id);
+        // this.service.savedColors =  this.service.savedColors.filter(color =>  color.id !== id);
         this.filterColors =  this.filterColors.filter(color =>  color.id !== id);
         this.service.toaster.success("delete a category" , "Deleted Successfilly" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
       },

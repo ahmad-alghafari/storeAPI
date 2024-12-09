@@ -67,7 +67,7 @@ export class ProductsComponent {
           const index = this.service.products.findIndex(product => product.id === this.service.productFormDataUpdate.id);
           const indexx = this.filterProducts.findIndex(product => product.id === this.service.productFormDataUpdate.id);
           if (index !== -1) {
-            this.service.products[index] = response ;
+            // this.service.products[index] = response ;
           }
           if (indexx !== -1) {
             this.filterProducts[indexx] = response ;
@@ -91,7 +91,7 @@ export class ProductsComponent {
         const index = this.service.products.findIndex(product => product.id === id);
         const indexx = this.filterProducts.findIndex(product => product.id === id);
         if (index !== -1) {
-          this.service.products[index] = response ;
+          // this.service.products[index] = response ;
         }
         if (indexx !== -1) {
           this.filterProducts[indexx] = response ;
