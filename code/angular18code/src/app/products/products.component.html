@@ -53,77 +53,81 @@
               </tr>
             </thead>
             <tbody>
-            @for(product of filterProducts ; track product.id){
-             <tr>
-                <td>
-                  <div class="row">
-                    <div class="col-4">
-                      <img class="rounded-1 border border-200" [src]="product.images[0] != null ? service.URLs.baseUrl+product.images[0]!.path : 'assets/img/elearning/courses/course3.png'" width="60" />
-                    </div>
-                    <div class="col-8">
-                      <a class="nav-link " [routerLink]="['/'+service.routeNames.showProduct.replace(':id' , product.id)]">
-                        {{product.name}}
-                      </a>
-                    </div>
-                  </div>
-                </td>
-                <td class="align-middle text-center">
-                  {{product?.brand?.name ?? 'No Brand'}}
-                </td>
-                <td class="align-middle text-center">
-                  {{product?.category?.name ?? 'No Category'}}
-                </td>
-                <td class="align-middle text-center">
-                  {{product?.updatedAt ? service.timeAgo(product.updatedAt) : 'No Update'}}
-                </td>
-                <td class="align-middle text-center">
-                  <button (click)="updateProductStatus(product.id , 'new' , product.new , product)" class="btn btn-falcon-default btn-sm rounded-pill me-1 mb-1" type="button" [style.color]="product?.new == 'true'? 'green' : 'black'" data-bs-toggle="tooltip" data-bs-placement="top" title="Click To Change">
-                    {{product?.new == 'true' ? 'New' : 'Old' }}
-                  </button>
-                </td>
-                <td class="align-middle text-center">
-                  <button (click)="updateProductStatus(product.id , 'available' , product.availability , product)" class="btn btn-falcon-default btn-sm rounded-pill me-1 mb-1" type="button" [style.color]="product?.availability == 'true'? 'green' : 'red'">
-                    {{product?.availability == 'true' ? 'Available' : 'Sold Out'}}
-                  </button>
-                </td>
-                <td class="align-middle">
-                  <button (click)="updateProductStatus(product.id , 'show' , product.show , product)" class="btn btn-falcon-default btn-sm rounded-pill me-1 mb-1" type="button">
-                    {{product?.show == 'true' ? 'Show':'Hidden'}}
-                  </button>
-                </td>
-                <td class="align-middle text-success">
-                  {{product?.price | currency}}
-                </td>
-                <td class="align-middle text-end">
-                  <div class="dropdown font-sans-serif position-static d-inline-block btn-reveal-trigger">
-                    <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal dropdown-caret-none float-end" type="button" id="dropdown0" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--1"></span></button>
-                    <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown0">
-                      <a class="dropdown-item"   [routerLink]="['/'+service.routeNames.showProduct.replace(':id',product.id)]" >View</a>
-                      <button 
-                      class="dropdown-item" 
-                      type="button" 
-                      data-bs-toggle="modal"
-                      data-bs-target="#editProduct-modal" 
-                      (click)="deleteProductId = product.id">
-                      Edit</button>
-                      <a class="dropdown-item"  [routerLink]="['/' + service.routeNames.productProperties.replace(':id' , product.id)]" >Properties</a>
-                      <div class="dropdown-divider"></div>
-                      <a 
-                      class="dropdown-item text-danger" 
-                      type="button" 
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteProduct-modal" 
-                      (click)="deleteProductId = product.id"
-                      >Delete</a>
-                    </div>
-                  </div>
-                </td>
-             </tr>
-            }@empty {
-              <tr>
-                <td colspan="8"><h5>404 : No Products Found ... <a routerLink="/create/product"   class="d-inline ">Add a new product.</a></h5></td>
-              </tr>
-            }
+                @for(product of filterProducts ; track product.id){
+                <tr>
+                    <td>
+                      <div class="row">
+                        <div class="col-4">
+                          @if(product && product.images !== null && product.images.length > 0){
+                            <img class="rounded-1 border border-200" [src]="service.URLs.baseUrl + product.images[0].path" width="60" />
+                          }@else{
+                            <img class="rounded-1 border border-200" src="assets/img/elearning/courses/course3.png" width="60" />
+                          }
+                        </div>
+                        <div class="col-8">
+                          <a class="nav-link " [routerLink]="['/'+service.routeNames.showProduct.replace(':id' , product.id)]">
+                            {{product.name}}
+                          </a>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      {{product?.brand?.name ?? 'No Brand'}}
+                    </td>
+                    <td class="align-middle text-center">
+                      {{product?.category?.name ?? 'No Category'}}
+                    </td>
+                    <td class="align-middle text-center">
+                      {{product?.updatedAt ? service.timeAgo(product.updatedAt) : 'No Update'}}
+                    </td>
+                    <td class="align-middle text-center">
+                      <button (click)="updateProductStatus(product.id , 'new' , product.new , product)" class="btn btn-falcon-default btn-sm rounded-pill me-1 mb-1" type="button" [style.color]="product?.new == 'true'? 'green' : 'black'" data-bs-toggle="tooltip" data-bs-placement="top" title="Click To Change">
+                        {{product?.new == 'true' ? 'New' : 'Old' }}
+                      </button>
+                    </td>
+                    <td class="align-middle text-center">
+                      <button (click)="updateProductStatus(product.id , 'available' , product.availability , product)" class="btn btn-falcon-default btn-sm rounded-pill me-1 mb-1" type="button" [style.color]="product?.availability == 'true'? 'green' : 'red'">
+                        {{product?.availability == 'true' ? 'Available' : 'Sold Out'}}
+                      </button>
+                    </td>
+                    <td class="align-middle">
+                      <button (click)="updateProductStatus(product.id , 'show' , product.show , product)" class="btn btn-falcon-default btn-sm rounded-pill me-1 mb-1" type="button">
+                        {{product?.show == 'true' ? 'Show':'Hidden'}}
+                      </button>
+                    </td>
+                    <td class="align-middle text-success">
+                      {{product?.price | currency}}
+                    </td>
+                    <td class="align-middle text-end">
+                      <div class="dropdown font-sans-serif position-static d-inline-block btn-reveal-trigger">
+                        <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal dropdown-caret-none float-end" type="button" id="dropdown0" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                        <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown0">
+                          <a class="dropdown-item"   [routerLink]="['/'+service.routeNames.showProduct.replace(':id',product.id)]">View</a>
+                          <button 
+                          class="dropdown-item" 
+                          type="button" 
+                          data-bs-toggle="modal"
+                          data-bs-target="#editProduct-modal" 
+                          (click)="service.productFormDataUpdate = product">
+                          Edit</button>
+                          <a class="dropdown-item"  [routerLink]="['/' + service.routeNames.productProperties.replace(':id' , product.id)]">Properties</a>
+                          <div class="dropdown-divider"></div>
+                          <a 
+                          class="dropdown-item text-danger" 
+                          type="button" 
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteProduct-modal" 
+                          (click)="deleteProductId = product.id"
+                          >Delete</a>
+                        </div>
+                      </div>
+                    </td>
+                </tr>
+                }@empty {
+                  <tr>
+                    <td colspan="8"><h5>404 : No Products Found ... <a routerLink="/create/product"   class="d-inline ">Add a new product.</a></h5></td>
+                  </tr>
+                }
             </tbody>
           </table>
         </div>

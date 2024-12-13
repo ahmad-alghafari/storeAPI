@@ -33,10 +33,10 @@
           <div class="col-auto">
             <div class="d-flex align-items-center"><small class="fw-semi-bold d-none d-lg-block lh-1">View:</small>
               <div class="d-flex">
-                <button class="btn btn-link btn-sm text-400 hover-700" (click)="switchGrid()" data-bs-toggle="tooltip" data-bs-placement="top" title="Course Grid">
+                <button [class]="gridOrList == 'grid' ? 'btn btn-link btn-sm px-1 text-700':'btn btn-link btn-sm text-400 hover-700'" (click)="switchGrid()" data-bs-toggle="tooltip" data-bs-placement="top" title="Course Grid">
                   <span class="fas fa-th fs-1" data-fa-transform="down-1"></span>
                 </button>
-                <button class="btn btn-link btn-sm px-1 text-700" (click)="switchList()" data-bs-toggle="tooltip" data-bs-placement="top" title="Course List">
+                <button [class]="gridOrList == 'list' ? 'btn btn-link btn-sm px-1 text-700':'btn btn-link btn-sm text-400 hover-700'" (click)="switchList()" data-bs-toggle="tooltip" data-bs-placement="top" title="Course List">
                     <span class="fas fa-list-ul fs-1" data-fa-transform="down-1"></span>
                 </button>
               </div>
@@ -58,7 +58,9 @@
                         <div class="overflow-hidden">
                         <div class="position-relative rounded-top overflow-hidden">
                           <a class="d-block" [routerLink]="['/'+service.routeNames.showProduct.replace(':id',prod.id)]">
-                            <img class="img-fluid rounded-top" src="../../../assets/img/products/2.jpg" alt="" />
+                            @if(prod && prod.images !== null && prod.images.length > 0){
+                              <img class="img-fluid rounded-top" [src]="service.URLs.baseUrl + prod.images[0].path" alt="" />
+                            }
                           </a>
                           @if(prod.new == 'true'){
                             <span  class="badge rounded-pill bg-success position-absolute mt-2 me-2 z-index-2 top-0 end-0">New</span>
@@ -103,7 +105,10 @@
                       <br>
                       <div class="position-relative h-sm-100">
                         <a class="d-block h-100" [routerLink]="['/'+service.routeNames.showProduct.replace(':id' , prod.id)]">
-                          <img class="img-fluid fit-cover w-sm-100 h-sm-100 rounded-1 absolute-sm-centered" src="../../../assets/img/products/2.jpg" alt="" /></a>
+                          @if(prod && prod.images !== null && prod.images.length > 0){
+                            <img class="img-fluid fit-cover w-sm-100 h-sm-100 rounded-1 absolute-sm-centered" [src]="service.URLs.baseUrl + prod.images[0].path" alt="" />
+                          }
+                          </a>
                           @if(prod.new == 'true'){
                             <div class="badge rounded-pill bg-success position-absolute top-0 end-0 me-2 mt-2 fs--2 z-index-2">New</div>
                           }

@@ -15,8 +15,6 @@ export class CatgoryComponent  {
   service = inject(Controller);
   filterCategories : any[] = [];
 
-  constructor (){}
-
   ngOnInit(): void {
     this.service.categories$.subscribe((categories) => {
       this.filterCategories = [...categories];
@@ -24,19 +22,22 @@ export class CatgoryComponent  {
   }
 
   search(data:any){
-    const dataLC : any = data.toLowerCase();
-    this.filterCategories = this.filterCategories.filter(category => 
-      category.name.toLowerCase().includes(dataLC) || 
-      category.name.toLowerCase().includes(dataLC)
-    );
+    const dataLC  = data.toLowerCase();
+    this.service.categories$.subscribe((categories) => {
+      this.filterCategories = categories.filter((category) => 
+        category.name.toLowerCase().includes(dataLC) || 
+         category.description.toLowerCase().includes(dataLC)
+      );
+    });
   }
 
   create(form: NgForm){
-    if(form.valid){
+    if(form.valid){   
       this.service.post(this.service.URLs.categoriesApiUrl , this.service.categoryFormData)
       .subscribe({
         next : response  => {
-          const updatedCategories = [...this.service.categories , (response as Category)];
+
+          const updatedCategories = [(response as Category) , ...this.service.categories];
           this.service.categories = updatedCategories;
 
           console.log(response);
@@ -53,9 +54,8 @@ export class CatgoryComponent  {
 
   destroy(id:any){
     this.service.delete(this.service.URLs.categoriesApiUrl ,id).subscribe({
-      next : response => {
-        // this.service.categories = this.service.categories.filter(category => category.id !== id);
-        this.filterCategories =  this.filterCategories.filter(category => category.id !== id);
+      next : () => {
+        this.service.categories = this.service.categories.filter(category => category.id !== id);
         this.service.toaster.success("delete a category" , "Deleted Successfilly" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
       },
       error : error => {
@@ -67,20 +67,14 @@ export class CatgoryComponent  {
 
   update(form : NgForm){
     this.service.put(this.service.URLs.categoriesApiUrl , this.service.categoryFormDataUpdate.id , this.service.categoryFormDataUpdate).subscribe({
-      next : data => {
+      next : () => {
         const index = this.service.categories.findIndex(category => category.id === this.service.categoryFormDataUpdate.id);
-        // const indexx = this.filterCategories.findIndex(category => category.id === this.service.categoryFormDataUpdate.id);
+        this.service.categoryFormDataUpdate.updatedAt = this.service.getCustomFormattedDate();
         if (index !== -1) {
-          const updatedCategories = [...this.service.categories];
-          updatedCategories[index] = {
-            ...this.service.categoryFormDataUpdate,
-            updatedAt: this.service.getCustomFormattedDate(),
+          this.service.categories[index] = {
+            ...this.service.categoryFormDataUpdate
           };
-          this.service.categories = updatedCategories;
         }
-        // if (indexx !== -1) {
-        //   this.filterCategories[indexx] = this.service.categoryFormDataUpdate;
-        // }
         this.service.toaster.success("update a category" , "Updated Successfilly" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
       },
       error : error => {

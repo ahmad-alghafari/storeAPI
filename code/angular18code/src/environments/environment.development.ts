@@ -1,15 +1,21 @@
+const protocol  = "https";
+const number = "127.0.0.1";
+const str = "localhost";
+const ip = str;
+const port = "7276";
+const apiURL = protocol+"://"+ip+":"+port+"/api";
 export const environment = {
-    baseUrl : "https://127.0.0.1:7276",
-    ApiUrl : "https://127.0.0.1:7276/api",
-    brandsApiUrl : "https://127.0.0.1:7276/api/brands",
-    categoriesApiUrl : "https://127.0.0.1:7276/api/categories",
-    colorsApiUrl : "https://127.0.0.1:7276/api/colors",
-    detailsApiUrl : "https://127.0.0.1:7276/api/details",
-    imagesApiUrl : "https://127.0.0.1:7276/api/images",
-    productsApiUrl : "https://127.0.0.1:7276/api/products",
-    producttagsApiUrl : "https://127.0.0.1:7276/api/producttags",
-    savedcolorsApiUrl : "https://127.0.0.1:7276/api/savedcolors",
-    tagsApiUrl : "https://127.0.0.1:7276/api/tags",
-    usersApiUrl : "https://127.0.0.1:7276/api/users",
-    warranyApiUrl : "https://127.0.0.1:7276/api/warrany",
+    baseUrl : protocol+"://"+ip+":"+port,
+    ApiUrl : apiURL ,
+    brandsApiUrl : apiURL+"/brands",
+    categoriesApiUrl : apiURL+"/categories",
+    colorsApiUrl : apiURL+"/colors",
+    detailsApiUrl : apiURL+"/details",
+    imagesApiUrl : apiURL+"/images",
+    productsApiUrl : apiURL+"/products",
+    producttagsApiUrl : apiURL+"/producttags",
+    savedcolorsApiUrl : apiURL+"/savedcolors",
+    tagsApiUrl : apiURL+"/tags",
+    usersApiUrl : apiURL+"/users",
+    warranyApiUrl : apiURL+"/warrany",
 };

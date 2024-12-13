@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Controller } from '../services/controller.service';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe, NgClass } from '@angular/common';
+import { Product } from '../shared/product.model';
 
 @Component({
   selector: 'app-showproducts',
@@ -13,10 +14,12 @@ import { CurrencyPipe, NgClass } from '@angular/common';
 export class ShowproductsComponent {
   service = inject(Controller);
   gridOrList  : string = 'list';
-  filterProducts : any [] = [];
+  filterProducts : Product [] = [];
 
-  constructor(){
-    this.filterProducts = this.service.products;
+  ngOnInit() : void{
+    this.service.products$.subscribe((products) =>{
+      this.filterProducts = [...products];
+    });
   }
 
   switchGrid(){

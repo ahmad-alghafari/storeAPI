@@ -3,6 +3,7 @@ export class Color {
     name = '';
     productId = '';
     available = '';
-    CreatedDate ='';
-    UpdatedDate ='';
+    value = '';
+    CreatedAt ='';
+    UpdatedAt ='';
 }

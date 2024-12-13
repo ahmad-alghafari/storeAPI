@@ -15,16 +15,20 @@ export class TagsComponent {
   service = inject(Controller);
   filterTags : any[] = [];
 
-  constructor() {
-    this.filterTags = this.service.tags;
+  ngOnInit(): void {
+    this.service.tags$.subscribe((tags) => {
+      this.filterTags = [...tags];
+    });
   }
 
   search(data:any){
     const searchTerm : any = data.toLowerCase();
-    this.filterTags = this.service.tags.filter(tag => 
-      tag.name.toLowerCase().includes(searchTerm) ||
-      tag.description.toLowerCase().includes(searchTerm)
-    );
+    this.service.tags$.subscribe((tags) => {
+      this.filterTags = tags.filter(tag => 
+        tag.name.toLowerCase().includes(searchTerm) ||
+        tag.description.toLowerCase().includes(searchTerm)
+      );
+    });
   }
   
 
@@ -32,8 +36,9 @@ export class TagsComponent {
     if(form.valid){
       this.service.post(this.service.URLs.tagsApiUrl , this.service.tagFormData).subscribe({
         next : response  => {
-          this.service.tags.push(response as Tag); 
-          this.filterTags.push(response); 
+
+          const updatedTags = [(response as Tag) , ...this.service.tags];
+          this.service.tags = updatedTags ;
 
           console.log(response);
           this.service.resetTag(form);
@@ -49,9 +54,8 @@ export class TagsComponent {
 
   destroy(id:any){
     this.service.delete(this.service.URLs.tagsApiUrl , id).subscribe({
-      next : response => {
+      next : () => {
         this.service.tags =  this.service.tags.filter(tag => tag.id !== id);
-        this.filterTags =  this.filterTags.filter(tag => tag.id !== id);
         this.service.toaster.success("delete a tag" , "Deleted Successfilly" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
       },
       error : error => {
@@ -63,15 +67,13 @@ export class TagsComponent {
 
   update(form : NgForm){
     this.service.put(this.service.URLs.tagsApiUrl , this.service.tagFormDataUpdate.id , this.service.tagFormDataUpdate).subscribe({
-      next : response => {
+      next : () => {
         const index = this.service.tags.findIndex(tag => tag.id === this.service.tagFormDataUpdate.id);
-        const indexx = this.filterTags.findIndex(tag => tag.id === this.service.tagFormDataUpdate.id);
         this.service.tagFormDataUpdate.updatedAt = this.service.getCustomFormattedDate();
         if (index !== -1) {
-          this.service.tags[index] = this.service.tagFormDataUpdate;
-        }
-        if (indexx !== -1) {
-          this.filterTags[indexx] = this.service.tagFormDataUpdate;
+          this.service.tags[index] = {
+            ...this.service.tagFormDataUpdate
+          };
         }
         this.service.toaster.success("update a tag" , "Updated Successfilly" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
         this.service.resetTag(form);

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Productpost } from '../shared/productpost';
-import { Product } from '../shared/product';
+import { Product } from '../shared/product.model';
 import { Categorypost } from '../shared/categorypost';
 import { Category } from '../shared/category.model';
 import { ToastrService } from 'ngx-toastr';
@@ -45,8 +45,6 @@ export class Controller {
 
   colorFormData : Colorpost = new Colorpost();
   savedColorFormData : Savedcolorpost = new Savedcolorpost();
-
- //--
 
   categoriesSubject = new BehaviorSubject<Category[]>([]);
   categories$ = this.categoriesSubject.asObservable();
@@ -93,14 +91,14 @@ export class Controller {
     this.productsSubject.next(newProduct);
   }
 
-  private savedColorsSubject = new BehaviorSubject([]);
+  private savedColorsSubject = new BehaviorSubject<any[]>([]);
   savedColors$ = this.savedColorsSubject.asObservable();
 
   get savedColors(): any[] {
-    return this.productsSubject.getValue();
+    return this.savedColorsSubject.getValue();
   }
 
-  set savedColors(newColor : []){
+  set savedColors(newColor : any[]){
     this.savedColorsSubject.next(newColor);
   }
 
@@ -136,7 +134,7 @@ export class Controller {
 
     this.getAll(this.URLs.productsApiUrl).subscribe({
       next : response => {
-        this.productsSubject.next(response)
+        this.productsSubject.next(response);
         console.log('products :', response);
       } , error : error =>{
         console.error('Error fetching products:', error);
@@ -145,7 +143,7 @@ export class Controller {
 
     this.getAll(this.URLs.savedcolorsApiUrl).subscribe({
       next : response => {
-        this.savedColorsSubject.next(response)
+        this.savedColorsSubject.next(response);
         console.log('savedColors :', response);
       } , error : error =>{
         console.error('Error fetching savedColors:', error);

@@ -14,46 +14,54 @@ import { Controller } from '../services/controller.service';
 export class ColorsComponent  {
   service = inject(Controller);
   filterColors : any[] = [];
-  constructor (){
-    this.filterColors = this.service.savedColors;
+
+  ngOnInit(): void {
+    this.service.savedColors$.subscribe((colors) => {
+      this.filterColors = [...colors];
+    });
   }
+
   search(data:any){
-    const searchTerm : any = data.toLowerCase();
-    this.filterColors = this.service.savedColors.filter(color => 
-      color.name.toLowerCase().includes(searchTerm) ||
-      color.value.toLowerCase().includes(searchTerm)
-    );
+    const searchTerm  = data.toLowerCase();
+    this.service.savedColors$.subscribe((colors) => {
+      this.filterColors = colors.filter(colors => 
+        colors.name.toLowerCase().includes(searchTerm) ||
+        colors.value.toLowerCase().includes(searchTerm)
+      );
+    });
   }
 
   create(form: NgForm){
     if(form.valid){
       this.service.post(this.service.URLs.savedcolorsApiUrl , this.service.savedColorFormData).subscribe({
-        next : data  => {
-          console.log(data);
-          this.service.savedColors.push(data as Color); 
+        next : response  => {
+          console.log(response);
+
+          const updatedColors = [...this.service.savedColors , response ];
+          this.service.savedColors = updatedColors;
+ 
           this.service.resetSavedColor(form);
-          this.service.toaster.success("add a category", "Color Added Successfully" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
+          this.service.toaster.success("add a Color", "Color Added Successfully" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
         },
         error : error => {
           console.error(error);
-          this.service.toaster.error("add a category" , "Fail Delete Color" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
+          this.service.toaster.error("add a Color" , "Fail Delete Color" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
         }
       });
     }else{
-        this.service.toaster.error("add a category" , "Can't save empty faild" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
+        this.service.toaster.error("add a Color" , "Can't save empty faild" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
     }
   }
 
   destroy(id:any){
     this.service.delete(this.service.URLs.savedcolorsApiUrl ,id).subscribe({
-      next : response => {
-        // this.service.savedColors =  this.service.savedColors.filter(color =>  color.id !== id);
-        this.filterColors =  this.filterColors.filter(color =>  color.id !== id);
-        this.service.toaster.success("delete a category" , "Deleted Successfilly" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
+      next : () => {
+        this.service.savedColors =  this.service.savedColors.filter(color =>  color.id !== id);
+        this.service.toaster.success("delete a Color" , "Deleted Successfilly" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
       },
       error : error => {
         console.error(error);
-        this.service.toaster.error("delete a category" , "Fail Delete Category" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
+        this.service.toaster.error("delete a Color" , "Fail Delete Color" , {progressBar: true , progressAnimation : 'increasing' , positionClass : 'toast-bottom-right'});
       }
     });
   }

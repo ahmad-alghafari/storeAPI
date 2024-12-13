@@ -15,7 +15,7 @@
     <div class="card-body bg-light">
       <div class="tab-content">
         <div class="tab-pane preview-tab-pane active" role="tabpanel" aria-labelledby="tab-dom-071d002a-db29-4ada-a16d-4ce90c710ff3" id="dom-071d002a-db29-4ada-a16d-4ce90c710ff3">
-            <form #form="ngForm" (submit)="addProduct(form)">
+            <form #form="ngForm" (submit)="create(form)">
                 <div class="mb-3">
                     <label class="form-label" for="name">Name</label>
                     <input 
@@ -46,7 +46,7 @@
                     <div class="col-sm-6 mb-3">
                         <label for="category">Category</label>
                         <select 
-                        class="form-select selectpicker" 
+                        class="form-select " 
                         id="category" 
                         data-options='{"placeholder":"Select country..."}' 
                         name="category"
@@ -62,7 +62,7 @@
                     <div class="col-sm-6 mb-3">
                         <label for="brand">Brand</label>
                         <select 
-                        class="form-select selectpicker" 
+                        class="form-select " 
                         id="brand" 
                         data-options='{"placeholder":"Select country..."}' 
                         name="brand"
@@ -81,7 +81,7 @@
                         type="number" 
                         class="form-control" 
                         id="price"
-                        placeholder="$2800"
+                        placeholder="$400"
                         min="1"
                         name="price"
                         [(ngModel)]="service.productFormData.price"

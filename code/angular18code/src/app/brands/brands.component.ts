@@ -13,21 +13,21 @@ import { Controller } from '../services/controller.service';
 export class BrandsComponent {
   service = inject(Controller);
   filterBrands : any[] = [];
-  constructor() {
-    this.filterBrands = this.service.brands ; 
-  }
+  
   ngOnInit(): void {
-    
-    this.filterBrands = this.service.brands ; 
-
+    this.service.brands$.subscribe((brands) => {
+      this.filterBrands = [...brands];
+    });
   }
 
   search(data:any){
     const dataLC : any = data.toLowerCase();
-    this.filterBrands = this.service.brands.filter(brand => 
-      brand.name.toLowerCase().includes(dataLC) || 
-      brand.name.toLowerCase().includes(dataLC)
-    );
+    this.service.brands$.subscribe((brands) => {
+      this.filterBrands = brands.filter(brand => 
+        brand.name.toLowerCase().includes(dataLC) || 
+        brand.description.toLowerCase().includes(dataLC)
+      );
+    });
   }
 
 
@@ -36,8 +36,10 @@ export class BrandsComponent {
       this.service.post(this.service.URLs.brandsApiUrl , this.service.brandFormData).subscribe({
           next: response => {
             console.log(response);
-            this.service.brands.push(response as Brand);
-            this.filterBrands.push(response);
+
+            const updatedBrand = [...this.service.brands , (response as Brand)] ;
+            this.service.brands = updatedBrand;
+
             this.service.toaster.success("Added Successfully", "Fine", { progressBar: true, progressAnimation: 'increasing', positionClass: 'toast-bottom-right' });
             this.service.resetBrand(form);
           },
@@ -53,7 +55,6 @@ export class BrandsComponent {
     this.service.delete( this.service.URLs.brandsApiUrl, id).subscribe({
       next: () => {
         this.service.brands = this.service.brands.filter(brand => brand.id !== id);
-        this.filterBrands = this.filterBrands.filter(brand => brand.id !== id);
         this.service.toaster.success("delete a brand", "Deleted Successfilly", { progressBar: true, progressAnimation: 'increasing', positionClass: 'toast-bottom-right' });
       },
       error: error => {
@@ -65,16 +66,14 @@ export class BrandsComponent {
 
   update(form: NgForm) {
     this.service.put(this.service.URLs.brandsApiUrl , this.service.brandFormDataUpdate.id , this.service.brandFormDataUpdate).subscribe({
-      next: response => {
+      next: () => {
         const index = this.service.brands.findIndex(brand => brand.id === this.service.brandFormDataUpdate.id);
-        const indexx = this.filterBrands.findIndex(brand => brand.id === this.service.brandFormDataUpdate.id);
-
         this.service.brandFormDataUpdate.updatedAt = this.service.getCustomFormattedDate();
+        
         if (index !== -1) {
-          this.service.brands[index] = this.service.brandFormDataUpdate;
-        }
-        if (indexx !== -1) {
-          this.filterBrands[indexx] = this.service.brandFormDataUpdate;
+          this.service.brands[index] = {
+            ...this.service.brandFormDataUpdate , 
+          }
         }
         this.service.toaster.success("update a brand", "Updated Successfilly", { progressBar: true, progressAnimation: 'increasing', positionClass: 'toast-bottom-right' });
       },
